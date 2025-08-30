@@ -10,8 +10,9 @@ from .enums import (
     DepartureReason,
 )
 
+
 @dataclass
-class TimelineEvent():
+class TimelineEvent:
     event_date: date
 
     @property

@@ -3,6 +3,7 @@ from DairyCowDomainModel.breed_part import BreedPart
 from DairyCowDomainModel.enums import AnimalGender
 from datetime import date
 
+
 def _make_cow() -> Cow:
     breeds = [BreedPart("HOL", 0.75), BreedPart("JER", 0.25)]
 
@@ -16,8 +17,9 @@ def _make_cow() -> Cow:
         gender=AnimalGender.FEMALE,
         sire_ear_tag="NL223",
         birth_date=date(2022, 3, 1),
-        breed=breeds
+        breed=breeds,
     )
+
 
 def main() -> None:
     cow = _make_cow()
