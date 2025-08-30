@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-
-class BreedPart(dataclass):
+@dataclass
+class BreedPart():
     breed: str
     proportion: float
 
