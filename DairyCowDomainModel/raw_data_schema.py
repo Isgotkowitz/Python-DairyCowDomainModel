@@ -1,0 +1,163 @@
+from pyspark.sql.types import *
+
+
+METADATA_SCHEMA = StructType(
+    [
+        StructField("APIv1Code", StringType(), True),
+        StructField("APIv1Value", StringType(), True),
+        StructField("AmountFat", FloatType(), True),
+        StructField("AmountFat305", FloatType(), True),
+        StructField("AmountLactose", FloatType(), True),
+        StructField("AmountMilk", FloatType(), True),
+        StructField("AmountMilk305", FloatType(), True),
+        StructField("AmountProtein", FloatType(), True),
+        StructField("AmountProtein305", FloatType(), True),
+        StructField("BreedingType", StringType(), True),
+        StructField("BreedingTypeCode", IntegerType(), True),
+        StructField("BullEarTag", StringType(), True),
+        StructField("BullIdentifier", IntegerType(), True),
+        StructField("BullName", StringType(), True),
+        StructField("BullNumber", IntegerType(), True),
+        StructField("CalvingEase", StringType(), True),
+        StructField("ColostrumDateTime", StringType(), True),
+        StructField("DiagnoseRawName", StringType(), True),
+        StructField("DiagnosisCode", IntegerType(), True),
+        StructField("DiagnosisName", StringType(), True),
+        StructField("DryDate", TimestampType(), True),
+        StructField("EndTime", StringType(), True),
+        StructField("ExpectedDryDate", TimestampType(), True),
+        StructField("Failure", BooleanType(), True),
+        StructField("FatPercentage", FloatType(), True),
+        StructField("GenderSortedSemen", StringType(), True),
+        StructField("GenderSortedSemenCode", IntegerType(), True),
+        StructField("InseminationNumber", StringType(), True),
+        StructField("IntervalTime", StringType(), True),
+        StructField("LactationNumber", IntegerType(), True),
+        StructField("LactosePercentage", FloatType(), True),
+        StructField("Location", StringType(), True),
+        StructField("LongCode", StringType(), True),
+        StructField("Milking", IntegerType(), True),
+        StructField("MilkingSpeed", StringType(), True),
+        StructField("MilkingTime", IntegerType(), True),
+        StructField("MilkingYield", FloatType(), True),
+        StructField("NetProfit", IntegerType(), True),
+        StructField("OriginBreedingType", StringType(), True),
+        StructField("OriginBreedingTypeCode", IntegerType(), True),
+        StructField("OriginDiagnosisCode", IntegerType(), True),
+        StructField("OriginDiagnosisLocation", IntegerType(), True),
+        StructField("OriginDiagnosisName", StringType(), True),
+        StructField("OriginPregnancyResultCode", IntegerType(), True),
+        StructField("OriginType", StringType(), True),
+        StructField("OriginTypeCode", IntegerType(), True),
+        StructField("ParlorNumber", IntegerType(), True),
+        StructField("PregnancyResultCode", IntegerType(), True),
+        StructField("PreviousDeviceVisitTime", StringType(), True),
+        StructField("ProteinPercentage", FloatType(), True),
+        StructField("Refusal", IntegerType(), True),
+        StructField("Remarks", StringType(), True),
+        StructField("ReproductionType", IntegerType(), True),
+        StructField("RobotId", StringType(), True),
+        StructField("RobotName", StringType(), True),
+        StructField("SCC", IntegerType(), True),
+        StructField("SPP", FloatType(), True),
+        StructField("SequenceNumber", IntegerType(), True),
+        StructField("ShortCode", FloatType(), True),
+        StructField("StartTime", TimestampType(), True),
+        StructField("Type", StringType(), True),
+        StructField("TypeCode", IntegerType(), True),
+        StructField("Urea", FloatType(), True),
+    ]
+)
+
+
+DAILY_EVENT_SCHEMA = StructType(
+    [
+        StructField("Age", LongType(), True),
+        StructField("AnimalId", LongType(), True),
+        StructField("CalvingDate", LongType(), True),
+        StructField("DaysInMilk", LongType(), True),
+        StructField("Event", StringType(), True),
+        StructField("EventDate", LongType(), True),
+        StructField("Metadata", METADATA_SCHEMA, True),
+        StructField("EventDate", StringType(), True),
+        StructField("KPIs", ArrayType(StringType(), True), True),
+    ]
+)
+
+
+DAILY_EVENTS_SCHEMA = StructField(
+    "DailyEvents", ArrayType(DAILY_EVENT_SCHEMA, True), True
+)
+
+
+LACTATION_DAYS_SCHEMA = StructField(
+    "lactationDays", ArrayType(DAILY_EVENTS_SCHEMA), True
+)
+
+
+COMPLEX_LACTATION_SCHEMA = StructType(
+            [
+                StructField("KPIs", ArrayType(StringType(), True), True),
+                StructField("lactationDays", ArrayType(LACTATION_DAYS_SCHEMA), True),
+            ]
+        )
+
+
+
+LACTATIONS_SCHEMA = StructType(
+    [
+        StructField("KPIs", ArrayType(StringType(), True), True),
+        StructField("complexLactations", ArrayType(COMPLEX_LACTATION_SCHEMA), True),
+        StructField("lactationNumber", ArrayType(LongType(), True), True),
+    ],
+)
+
+
+KPI_SCHEMA = StructType(
+    [
+        StructField("cohortDate", StringType(), True),
+        StructField("crossDate", StringType(), True),
+        StructField("dataType", StringType(), True),
+        StructField("defined", BooleanType(), True),
+        StructField("exception", StringType(), True),
+        StructField("lactationNumber", StringType(), True),
+        StructField("name", StringType(), True),
+        StructField("value", StringType(), True),
+    ],
+)
+
+
+UPPER_METADATA_SCHEMA = StructType(
+    [
+        StructField("AnimalEarTag", StringType(), True),
+        StructField("AnimalFarmName", StringType(), True),
+        StructField("AnimalFarmNumber", StringType(), True),
+        StructField("AnimalRemarks", StringType(), True),
+        StructField("AnimalTransponder", StringType(), True),
+        StructField("BirthDate", StringType(), True),
+        StructField("DamEarTag", StringType(), True),
+        StructField("DamIdentifier", StringType(), True),
+        StructField("Gender", StringType(), True),
+        StructField("IsActive", StringType(), True),
+        StructField("SireEarTag", StringType(), True),
+        StructField("SireIdentifier", StringType(), True),
+        StructField("SurrogateDamEarTag", StringType(), True),
+        StructField("SurrogateDamIdentifier", StringType(), True),
+        StructField("WasEverOnFarm", StringType(), True),
+    ],
+)
+
+
+COW_SCHEMA = StructType(
+    [
+        StructField("AnimalId", LongType(), True),
+        StructField(
+            "Exceptions", StructType([StructField("Parity", StringType(), True)]), True
+        ),
+        StructField("HerdId", LongType(), True),
+        StructField("KPIs", ArrayType(KPI_SCHEMA, True), True),
+        StructField("Lactations", LACTATIONS_SCHEMA, True),
+        StructField("Metadata", METADATA_SCHEMA, True),
+        StructField("Teams", ArrayType(LongType(), True), True),
+    ]
+)

@@ -1,7 +1,10 @@
 from DairyCowDomainModel.cow import Cow
 from DairyCowDomainModel.breed_part import BreedPart
 from DairyCowDomainModel.enums import AnimalGender
+from DairyCowDomainModel.raw_data_schema import COW_SCHEMA
 from datetime import date
+
+from pyspark.sql import SparkSession
 
 
 def _make_cow() -> Cow:
@@ -22,10 +25,11 @@ def _make_cow() -> Cow:
 
 
 def main() -> None:
-    cow = _make_cow()
+    spark = SparkSession.builder.master("local[*]").appName("pyDCDM_demo").getOrCreate()
 
-    print(cow)
-    print("Cow created successfully.")
+    raw_df = spark.read.json("data/reformatted_zoetis.json", schema=COW_SCHEMA)
+
+    raw_df.printSchema()
 
 
 if __name__ == "__main__":
