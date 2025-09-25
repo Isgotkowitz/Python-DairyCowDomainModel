@@ -27,7 +27,9 @@ def _make_cow() -> Cow:
 def main() -> None:
     spark = SparkSession.builder.master("local[*]").appName("pyDCDM_demo").getOrCreate()
 
-    raw_df = spark.read.json("data/reformatted_zoetis.json", schema=COW_SCHEMA)
+    raw_df = spark.read.json(
+        "data/prettyZoetisFirst10Rows.json", schema=COW_SCHEMA, multiLine=True
+    )
 
     raw_df.printSchema()
 
