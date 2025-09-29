@@ -1,6 +1,18 @@
 from pyspark.sql.types import (
-    StructType, StructField, StringType, LongType, BooleanType, ArrayType, FloatType, IntegerType, TimestampType, DateType
+    StructType,
+    StructField,
+    StringType,
+    LongType,
+    BooleanType,
+    ArrayType,
+    FloatType,
+    IntegerType,
+    TimestampType,
+    DateType,
 )
+
+
+# fmt: off
 
 FLATTENED_COW_SCHEMA = StructType([
     StructField("AnimalId", LongType(), True),
@@ -98,3 +110,5 @@ FLATTENED_COW_SCHEMA = StructType([
     StructField("WasEverOnFarm", StringType(), True),
     StructField("Teams", ArrayType(LongType(), True), True)
 ])
+
+# fmt: on

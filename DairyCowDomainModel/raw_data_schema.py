@@ -1,8 +1,19 @@
 from pyspark.sql.types import (
-    StructType, StructField, StringType, LongType, BooleanType, ArrayType, FloatType, IntegerType, TimestampType
+    StructType,
+    StructField,
+    StringType,
+    LongType,
+    BooleanType,
+    ArrayType,
+    FloatType,
+    IntegerType,
+    TimestampType,
 )
 
-COW_SCHEMA = StructType([
+
+# fmt: off
+
+RAW_COW_SCHEMA = StructType([
     StructField("AnimalId", LongType(), True),
     StructField("Exceptions", StructType([
         StructField("Parity", StringType(), True)
@@ -120,3 +131,5 @@ COW_SCHEMA = StructType([
     ]), True),
     StructField("Teams", ArrayType(LongType(), True), True)
 ])
+
+# fmt: on
