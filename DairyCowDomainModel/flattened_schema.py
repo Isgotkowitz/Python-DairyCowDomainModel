@@ -2,7 +2,7 @@ from pyspark.sql.types import (
     StructType, StructField, StringType, LongType, BooleanType, ArrayType, FloatType, IntegerType, TimestampType, DateType
 )
 
-COW_SCHEMA = StructType([
+FLATTENED_COW_SCHEMA = StructType([
     StructField("AnimalId", LongType(), True),
     StructField("Exceptions", StructType([
         StructField("Parity", StringType(), True)
