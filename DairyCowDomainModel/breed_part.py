@@ -1,14 +1,8 @@
-from dataclasses import dataclass
+from pyspark.sql.types import StructField, StructType, StringType, FloatType
 
-
-@dataclass
-class BreedPart:
-    breed: str
-    proportion: float
-
-    def __post_init__(self) -> None:
-        if not (0.0 <= self.proportion <= 1.0):
-            raise ValueError("Percentage must be between 0.0 and 1.0")
-
-    def __str__(self) -> str:
-        return f"{self.breed} {int(self.proportion * 100)}%"
+breed_schema = StructType(
+    [
+        StructField("breed", StringType(), False),
+        StructField("proportion", FloatType(), False),
+    ]
+)
