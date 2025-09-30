@@ -1,31 +1,39 @@
-from dataclasses import dataclass, field
-from datetime import date
+from pyspark.sql.types import (
+    StructField,
+    StructType,
+    IntegerType,
+    StringType,
+    TimestampType,
+    ArrayType,
+    BooleanType,
+)
 
-from .breed_part import BreedPart
-from .enums import AnimalGender
-from .timeline_event import TimelineEvent
+from .breed_part import breed_schema
+from .timeline_event import timeline_event_schema
 
 
-@dataclass
-class Cow:
-    animal_id: int
-    gender: AnimalGender
-    birth_date: date
-    animal_ear_tag: str | None = None
-    animal_farm_name: str | None = None
-    animal_farm_number: int | None = None
-    genetic_dam_ear_tag: str | None = None
-    genetic_dam_identifier: int | None = None
-    sire_ear_tag: str | None = None
-    sire_identifier: int | None = None
-    animal_legal_identifier: str | None = None
-    animal_iso_rfid_starting_manufacturer: str | None = None
-    animal_iso_rfid_starting_country_code: str | None = None
-    animal_herd_book_name: str | None = None
-    animal_usda: str | None = None
-    animal_dhia: str | None = None
-    recipient_dam_identifier: int | None = None
-
-    breed: list[BreedPart] = field(default_factory=lambda: [BreedPart("HOL", 0.99)])
-    born_on_farm: bool | None = None
-    timeline_events: list[TimelineEvent] = field(default_factory=list)
+cow_schema = StructType(
+    [
+        StructField("animal_id", IntegerType(), False),
+        StructField("gender", StringType(), False),
+        StructField("birth_date", TimestampType(), False),
+        StructField("current_status", StringType(), False),
+        StructField("breed", ArrayType(breed_schema), False),
+        StructField("timeline_events", ArrayType(timeline_event_schema), False),
+        StructField("animalEarTag", StringType(), True),
+        StructField("animalFarmName", StringType(), True),
+        StructField("animalFarmNumber", IntegerType(), True),
+        StructField("geneticDamEarTag", StringType(), True),
+        StructField("geneticDamIdentifier", IntegerType(), True),
+        StructField("sireEarTag", StringType(), True),
+        StructField("sireIdentifier", IntegerType(), True),
+        StructField("animalLegalIdentifier", StringType(), True),
+        StructField("animalISORFIDStartingManufacturer", StringType(), True),
+        StructField("animalISORFIDStartingCountryCode", StringType(), True),
+        StructField("animalHerdBookName", StringType(), True),
+        StructField("animalUSDA", StringType(), True),
+        StructField("animalDHIA", StringType(), True),
+        StructField("recipientDamIdentifier", IntegerType(), True),
+        StructField("bornOnFarm", BooleanType(), True),
+    ]
+)
