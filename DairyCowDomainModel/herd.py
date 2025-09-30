@@ -1,25 +1,33 @@
-from dataclasses import dataclass, field
+from pyspark.sql.types import (
+    StructType,
+    StructField,
+    IntegerType,
+    StringType,
+    FloatType,
+    ArrayType,
+)
+from .cow import cow_schema
 
-from .cow import Cow
 
-
-@dataclass
-class Herd:
-    herd_identifier: int
-    name: str | None = None
-    source_id: int | None = None
-    data_provider_guid: str | None = None
-    street: str | None = None
-    number: str | None = None
-    registration_number: str | None = None
-    zip_code: str | None = None
-    city: str | None = None
-    state: str | None = None
-    country: str | None = None
-    country_code: str | None = None
-    latitude: float | None = None
-    longitude: float | None = None
-    email: str | None = None
-    mobile_phone_number: str | None = None
-    telephone_number: str | None = None
-    cows: list[Cow] = field(default_factory=list)
+herd_schema = StructType(
+    [
+        StructField("herdIdentifier", IntegerType(), False),
+        StructField("name", StringType(), True),
+        StructField("sourceId", IntegerType(), True),
+        StructField("dataProviderGuid", StringType(), True),
+        StructField("street", StringType(), True),
+        StructField("number", StringType(), True),
+        StructField("registrationNumber", StringType(), True),
+        StructField("zip", StringType(), True),
+        StructField("city", StringType(), True),
+        StructField("state", StringType(), True),
+        StructField("country", StringType(), True),
+        StructField("countryCode", StringType(), True),
+        StructField("latitude", FloatType(), True),
+        StructField("longitude", FloatType(), True),
+        StructField("email", StringType(), True),
+        StructField("mobilePhoneNumber", StringType(), True),
+        StructField("telephoneNumber", StringType(), True),
+        StructField("cows", ArrayType(cow_schema), False),
+    ]
+)
